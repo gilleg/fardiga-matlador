@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Färdiga matlådor</title>
+  <path fill="#1d1c19" d="M13 25c0-3.3 2.7-6 6-6h26c3.3 0 6 2.7 6 6v5H13v-5Zm2 9h34l-3.1 17.3c-.4 2.2-2.3 3.7-4.5 3.7H22.6c-2.2 0-4.1-1.6-4.5-3.7L15 34Z"/>
+  <path fill="#fff" d="M18 25h28v3H18zM23 38h18v2H23zM24 44h16v2H24z"/>
+  <path fill="none" stroke="#1d1c19" stroke-linecap="round" stroke-width="4" d="M24 13c-2-2.6-1.8-5.1 0-7M32 13c-2-2.6-1.8-5.1 0-7M40 13c-2-2.6-1.8-5.1 0-7"/>
+</svg>

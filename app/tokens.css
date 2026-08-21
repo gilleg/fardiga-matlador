@@ -1,0 +1,27 @@
+:root {
+  --paper: #ffffff;
+  --paper-bright: #ffffff;
+  --paper-soft: #f8f3ef;
+  --ink: #1d1c19;
+  --ink-soft: #5e5a51;
+  --accent: #d96e54;
+  --accent-dark: #8a3828;
+  --accent-light: #f6c6b9;
+  --line: #dedbd3;
+  --cta: #547a38;
+  --cta-dark: #3d5b29;
+  --success: #315f42;
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-body: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --space-1: 0.35rem;
+  --space-2: 0.7rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.25rem;
+  --space-6: 3.5rem;
+  --space-7: 5.5rem;
+  --radius: 0.8rem;
+  --content: 72rem;
+}
