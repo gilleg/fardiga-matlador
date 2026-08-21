@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="sv-SE">
       <head>
+        <script async src="https://addrevenue.io/easylinks.min.js?c=3469183" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-D5121VTNSS" />
         <script dangerouslySetInnerHTML={{ __html: "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-D5121VTNSS');" }} />
         <link rel="icon" href="/brand-ready-meals.svg" type="image/svg+xml" />
