@@ -45,7 +45,9 @@ export default function RootLayout({
         {children}
         <CookieConsent />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      </body>
+
+      <script type="text/javascript" src="https://cdn.adt574.com/atag.js?as=2104793900" charSet="UTF-8" />
+</body>
     </html>
   );
 }
