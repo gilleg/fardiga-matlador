@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: SITE_URL, lastModified: "2026-08-21", changeFrequency: "weekly", priority: 1 },
     { url: `${SITE_URL}/om-oss`, lastModified: "2026-08-21", changeFrequency: "monthly", priority: 0.55 },
+    { url: SITE_URL + "/affiliatepolicy", lastModified: "2026-08-27", changeFrequency: "yearly", priority: 0.35 },
     { url: `${SITE_URL}/integritetspolicy`, lastModified: "2026-08-21", changeFrequency: "yearly", priority: 0.35 },
     { url: `${SITE_URL}/cookiepolicy`, lastModified: "2026-08-21", changeFrequency: "yearly", priority: 0.35 },
     ...articleRoutes,
