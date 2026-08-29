@@ -12,7 +12,7 @@ export function ProviderComparison({ slug }: { slug: string }) {
     <div className="matkasse-card-grid">
       {order.map(({ offer, provider }, index) => <article className={`matkasse-card${provider.key === profile.winner ? " is-winner" : ""}`} key={provider.key}>
         <div className="matkasse-card-top"><span>{String(index + 1).padStart(2, "0")}</span>{provider.key === profile.winner && <strong>{provider.badge ?? "Vårt val"}</strong>}</div>
-        <div className="matkasse-title"><span className="matkasse-symbol">{provider.shortName}</span><div><h3>{provider.name}</h3><p>{provider.boxType}</p></div></div>
+        <div className="matkasse-title matkasse-title-with-logo">{provider.logo ? <img className="matkasse-provider-logo" src={provider.logo} alt={`${provider.name} logotyp`} /> : <span className="matkasse-symbol">{provider.shortName}</span>}<div><h3>{provider.name}</h3><p>{provider.boxType}</p></div></div>
         <p className="matkasse-card-label"><ExplainedText text={offer.label} /></p>
         <div className="matkasse-price"><span>Pris per portion</span><strong>{provider.pricePerPortion}</strong></div>
         <div className="matkasse-facts"><p><span>Veckokostnad</span><strong>{provider.weeklyPrice}</strong></p><p><span>Leverans</span><strong>{provider.deliveryFee}</strong></p><p><span>Värms på</span><strong>{provider.cookingTime}</strong></p></div>

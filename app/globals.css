@@ -593,3 +593,7 @@ td a { font-weight: 750; text-decoration-color: var(--accent); text-underline-of
   .fit-picks > div, .fit-picks > div:nth-child(odd) { min-height: 10rem; border-left: 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .fit-picks > div:last-child { border-bottom: 0; }
 }
+
+/* Provider logos */
+.matkasse-title-with-logo { flex-direction: column; align-items: flex-start; gap: .55rem; }
+.matkasse-provider-logo { width: 7.25rem; height: 2.75rem; object-fit: contain; object-position: left center; }

@@ -5,6 +5,7 @@ export type Provider = {
   rank: number;
   name: string;
   shortName: string;
+  logo?: string;
   badge?: string;
   ratingValue: string;
   pricePerPortion: string;
@@ -24,7 +25,7 @@ export type Provider = {
 
 export const providers: Provider[] = [
   {
-    key: "svarta-ladan", rank: 1, name: "Svarta Lådan", shortName: "SL", badge: "Vårt helhetsval", ratingValue: "4,6/5",
+    key: "svarta-ladan", logo: "/providers/svarta-ladan.png", rank: 1, name: "Svarta Lådan", shortName: "SL", badge: "Vårt helhetsval", ratingValue: "4,6/5",
     pricePerPortion: "Från 78 kr", weeklyPrice: "Från 545 kr per vecka", deliveryFee: "Kontrollera i kassan", boxType: "Kylda, färdiglagade matlådor", cookingTime: "Några minuter att värma", deliveryArea: "Stora delar av mellersta och södra Sverige",
     benefits: ["Flera kostinriktningar, inklusive vego och kaloriinriktade lådor", "Färdiglagat och svensklagat", "Gluten- och laktosfria alternativ enligt tjänstens information", "Ingen matlagning eller råvaruhandel i vardagen"],
     drawbacks: ["Leveransområdet måste kontrolleras per postnummer", "Veckokostnaden varierar med vald låda", "Specialkost behöver alltid läsas rätt för varje enskild rätt"],
@@ -32,7 +33,7 @@ export const providers: Provider[] = [
     officialUrl: "https://svartaladan.se/", reviewSlug: "svarta-ladan-recension",
   },
   {
-    key: "factor", rank: 2, name: "Factor", shortName: "F", badge: "Tydliga kostmål", ratingValue: "4,5/5",
+    key: "factor", logo: "/providers/factor.png", rank: 2, name: "Factor", shortName: "F", badge: "Tydliga kostmål", ratingValue: "4,5/5",
     pricePerPortion: "Cirka 110–140 kr", weeklyPrice: "Varierar med antal rätter", deliveryFee: "49 kr enligt underlag", boxType: "Färska, färdiglagade måltider", cookingTime: "Några minuter att värma", deliveryArea: "Kontrollera vid beställning",
     benefits: ["Omkring 21 rätter i veckomenyn enligt tjänsten", "Tydliga spår för keto, proteinrikt och max 550 kcal", "Kostvalen beskriver protein och energi", "Paus eller avslut enligt tjänstens villkor"],
     drawbacks: ["Högre portionspris än de svenska budgetalternativen", "Frakt behöver räknas in", "Utbud och leverans behöver kontrolleras för aktuell vecka"],
@@ -40,7 +41,7 @@ export const providers: Provider[] = [
     officialUrl: "https://www.factormeals.se/", reviewSlug: "factor-recension",
   },
   {
-    key: "macro-meals", rank: 3, name: "Macro Meals", shortName: "MM", badge: "För näringskoll", ratingValue: "4,7/5",
+    key: "macro-meals", logo: "/providers/macro-meals.png", rank: 3, name: "Macro Meals", shortName: "MM", badge: "För näringskoll", ratingValue: "4,7/5",
     pricePerPortion: "Cirka 115 kr", weeklyPrice: "Beror på val av meny och antal", deliveryFee: "Kontrollera i kassan", boxType: "Näringsberäknade, färdiglagade matlådor", cookingTime: "Några minuter att värma", deliveryArea: "Kontrollera postnummer och leveransdag",
     benefits: ["Näringsvärden redovisas per rätt", "Tydligt proteinfokus", "Val mellan färdig meny och mix & match", "Maten går att frysa enligt tjänstens information"],
     drawbacks: ["Minimiantal och frakt påverkar totalen", "Färre kostprofiler än Factor", "Leveransdag skiljer mellan postnummer"],
@@ -48,7 +49,7 @@ export const providers: Provider[] = [
     officialUrl: "https://www.macromeals.se/", reviewSlug: "macro-meals-recension",
   },
   {
-    key: "fardiga-maten", rank: 4, name: "Färdiga Maten", shortName: "FM", badge: "Husmanskost", ratingValue: "4,4/5",
+    key: "fardiga-maten", logo: "/providers/fardiga-maten.png", rank: 4, name: "Färdiga Maten", shortName: "FM", badge: "Husmanskost", ratingValue: "4,4/5",
     pricePerPortion: "Från 65 kr", weeklyPrice: "Varierar med val och leverans", deliveryFee: "Kontrollera i kassan", boxType: "Färdiglagad husmanskost", cookingTime: "Värms före servering", deliveryArea: "Kontrollera tillgänglighet för din adress",
     benefits: ["Lägsta portionsriktmärket i vår översikt", "Klassisk vardagsmat", "Färdiglagade portioner minskar köksarbetet", "Kan passa dig som vill ha ett enklare upplägg"],
     drawbacks: ["Mindre fokus på deklarerade kostmål", "Utbud och område behöver kontrolleras", "Portionsstorlek och hållbarhet kan skilja mellan rätter"],
