@@ -1,13 +1,21 @@
 import type { ProviderKey } from "./providers";
 
 export type ContentTable = { headers: string[]; rows: string[][] };
-export type ContentSection = { title: string; paragraphs?: string[]; bullets?: string[]; table?: ContentTable; note?: string };
+export type ContentSection = { title: string; paragraphs?: string[]; bullets?: string[]; table?: ContentTable; note?: string; sourceRefs?: { label: string; url: string }[]; };
+export type QuickFact = {
+  label: string;
+  value: string;
+  detail?: string;
+};
+
 export type ArticleData = {
   slug: string;
   category: string;
   title: string;
   description: string;
   answer: string[];
+  quickFacts?: QuickFact[];
+  answerScope?: string;
   published: string;
   updated: string;
   readingTime: string;
@@ -88,6 +96,13 @@ function makeArticle(seed: Seed): ArticleData {
   return {
     slug: seed.slug, category: seed.category, title: seed.title, description: seed.description,
     answer: [seed.angle, "Jämför alltid aktuell meny, ingredienser, leverans till ditt postnummer och den faktiska totalsumman före beställning."],
+    quickFacts: [
+      { label: isReview ? "Tjänst" : "Förstaval", value: winnerName },
+      { label: "Jämför först", value: seed.focus[0] },
+      { label: "Kontrollera", value: seed.focus[1] },
+      { label: "Slutkontroll", value: seed.focus[2] },
+    ],
+    answerScope: "Sammanfattningen gäller artikelns angivna upplägg. Portionspris, leverans, näringsvärden och minsta beställning behöver kontrolleras hos tjänsten.",
     published, updated, readingTime: "6 min", sections: isReview ? reviewSections : guideSections, faq,
     sources: [seed.source ? providerSources[seed.source] : providerSources[seed.winner], ...commonSources],
     related: seed.related ?? ["basta-fardiga-matlador", "matlador-med-hemleverans", "billiga-matlador"],

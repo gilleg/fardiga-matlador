@@ -36,13 +36,28 @@ export function ArticlePage({ slug }: { slug: string }) {
     <main>
       <article className="article-shell">
         <nav className="breadcrumbs" aria-label="Brödsmulor"><a href="/">Start</a><span aria-hidden="true">/</span><span>{article.category}</span></nav>
-        <header className="article-header"><p className="eyebrow">{article.category}</p><h1>{article.title}</h1><div className="article-meta"><span>Publicerad <time dateTime={article.published}>{formatDate(article.published)}</time></span><span>Senast uppdaterad <time dateTime={article.updated}>{formatDate(article.updated)}</time></span><span>{article.readingTime} läsning</span></div><div className="direct-answer" aria-label="Kort svar"><p className="direct-label">Kort svar</p>{article.answer.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}</div></header>
+        <header className="article-header"><p className="eyebrow">{article.category}</p><h1>{article.title}</h1><div className="article-meta"><span>Publicerad <time dateTime={article.published}>{formatDate(article.published)}</time></span><span>Senast uppdaterad <time dateTime={article.updated}>{formatDate(article.updated)}</time></span><span>{article.readingTime} läsning</span></div><div className="direct-answer" aria-label="Kort svar"><p className="direct-label">Kort svar</p>{article.answer.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}
+              {article.quickFacts && (
+                <dl className="answer-facts" aria-label="Nyckeluppgifter">
+                  {article.quickFacts.map((fact) => (
+                    <div key={fact.label}>
+                      <dt>{fact.label}</dt>
+                      <dd><ExplainedText text={fact.value} /></dd>
+                      {fact.detail && <small><ExplainedText text={fact.detail} /></small>}
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {article.answerScope && <p className="answer-scope"><ExplainedText text={article.answerScope} /></p>}
+            </div></header>
         <figure className="article-editorial-image"><img src={image.src} alt={image.alt} width="1600" height="1067" /><figcaption>{imageCaption}</figcaption></figure>
         <div className="article-layout"><div className="article-body">
           <section className="article-choice" id="var-bedomning"><p className="eyebrow">{reviewedProvider ? "Vår recension" : "Vårt val i jämförelsen"}</p><h2>{choiceHeading}</h2><p><ExplainedText text={profile.winnerReason} /></p><p className="choice-caveat">{choiceCaveat}</p><a className="choice-button" href={getProviderLink(winner)} target="_blank" rel={winner.affiliate ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"}>{choiceLinkLabel} <span aria-hidden="true">↗</span></a></section>
           <section className="focus-grid" aria-label="Det här jämför vi">{focusItems.map((item, index) => <div key={item}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></div>)}</section>
           <ProviderComparison slug={article.slug} />
-          {article.sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}><ExplainedText text={item} /></li>)}</ul>}</section>)}
+          {article.sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}><ExplainedText text={item} /></li>)}</ul>}
+              {section.sourceRefs && <p className="section-sources"><strong>Källor för uppgifterna:</strong>{section.sourceRefs.map((source) => <a href={source.url} rel="noopener noreferrer" key={source.url}>{source.label}</a>)}</p>}
+            </section>)}
           <section className="next-step-section"><p className="eyebrow">Nästa steg</p><h2>{nextStepHeading}</h2><ol>{(reviewedProvider ? ["Se att veckans meny och kostval passar dig.", "Kontrollera leverans till ditt postnummer och vad som ingår.", "Läs villkoren för ändring, paus och avslut före beställning."] : ["Välj samma antal portioner hos varje tjänst.", "Lägg till leverans och eventuella tillval.", "Kontrollera paus, uppsägning och ordinarie pris innan du beställer."]).map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}</ol><a href={reviewedProvider ? "/basta-fardiga-matlador" : "/#jamforelse"}>{reviewedProvider ? "Jämför tjänsterna" : "Tillbaka till jämförelsen"} <span aria-hidden="true">↗</span></a></section>
           <section className="faq-section"><p className="eyebrow">Vanliga frågor</p><h2>Frågor och svar</h2><div className="faq-list">{article.faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p><ExplainedText text={item.answer} /></p></details>)}</div></section>
           <section className="sources-section"><h2>Källor och underlag</h2><p>Priser, leveransområden och menyer ändras. Uppgifterna kontrollerades 18 augusti 2026 och ska jämföras med aktuell beställningssida före köp.</p><ol>{article.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <span aria-hidden="true">↗</span></a></li>)}</ol></section>
