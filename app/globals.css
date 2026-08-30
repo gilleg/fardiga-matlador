@@ -117,6 +117,8 @@ td a { font-weight: 750; text-decoration-color: var(--accent); text-underline-of
 .review-grid a:hover { border-color: var(--ink); }
 .review-grid small { color: var(--ink-soft); }
 .review-grid h3 { margin: 4.5rem 0 var(--space-3); font-family: var(--font-display); font-size: 2rem; font-weight: 500; }
+.review-grid a.has-review-logo h3 { margin-top: 1rem; }
+.review-logo { order: -1; width: min(11rem, 55%); height: 3.25rem; margin-bottom: .75rem; display: block; object-fit: contain; object-position: left center; }
 .review-grid p { margin: 0 0 var(--space-4); color: var(--ink-soft); font-size: .92rem; }
 .review-grid strong { margin-top: auto; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: .25rem; }
 .review-letter { position: absolute; top: .3rem; right: 1rem; color: var(--accent-light); font-family: var(--font-display); font-size: 7rem; font-weight: 700; line-height: 1; }
