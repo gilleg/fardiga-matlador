@@ -16,6 +16,8 @@ export function ArticlePage({ slug }: { slug: string }) {
   const profile = getComparisonProfile(article.slug);
   const winner = getProvider(profile.winner);
   const image = getArticleImage(article.slug);
+  const mascotImages = ["/images/mascots/ready-meal.png", "/images/mascots/delivery-plan.png", "/images/mascots/nutrition-check.png"];
+  const mascotImage = mascotImages[article.slug.length % mascotImages.length];
   const articleUrl = `${SITE_URL}/${article.slug}`;
   const reviewedProvider = providers.find((provider) => provider.reviewSlug === article.slug);
   const choiceHeading = reviewedProvider ? `Vår bedömning av ${reviewedProvider.name}` : `${winner.name} är vårt val i den här jämförelsen.`;
@@ -55,6 +57,7 @@ export function ArticlePage({ slug }: { slug: string }) {
           <section className="article-choice" id="var-bedomning"><p className="eyebrow">{reviewedProvider ? "Vår recension" : "Vårt val i jämförelsen"}</p><h2>{choiceHeading}</h2><p><ExplainedText text={profile.winnerReason} /></p><p className="choice-caveat">{choiceCaveat}</p><a className="choice-button" href={getProviderLink(winner)} target="_blank" rel={winner.affiliate ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"}>{choiceLinkLabel} <span aria-hidden="true">↗</span></a></section>
           <section className="focus-grid" aria-label="Det här jämför vi">{focusItems.map((item, index) => <div key={item}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></div>)}</section>
           <ProviderComparison slug={article.slug} />
+          <figure className="article-mascot-block"><img src={mascotImage} alt="Illustrerad matlåda som markerar ett praktiskt jämförelsesteg" width="640" height="640" /><figcaption>Kontrollera portionsstorlek, innehåll och leverans innan du räknar fram priset per måltid.</figcaption></figure>
           {article.sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}><ExplainedText text={item} /></li>)}</ul>}
               {section.sourceRefs && <p className="section-sources"><strong>Källor för uppgifterna:</strong>{section.sourceRefs.map((source) => <a href={source.url} rel="noopener noreferrer" key={source.url}>{source.label}</a>)}</p>}
             </section>)}
