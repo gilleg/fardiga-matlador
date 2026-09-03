@@ -5,5 +5,5 @@ const icons: LucideIcon[] = [Utensils, Clock, ShoppingCart];
 
 export function SectionIcon({ index }: { index: number }) {
   const Icon = icons[index % icons.length];
-  return <span className="section-line-icon" aria-hidden="true"><Icon strokeWidth={1.6} /></span>;
+  return <figure className="article-section-illustration" aria-hidden="true"><Icon strokeWidth={1.15} /></figure>;
 }
