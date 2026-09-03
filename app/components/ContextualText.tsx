@@ -33,8 +33,7 @@ export type ContextualLinkState = {
   productLinks: number;
 };
 
-const MAX_LINKS = 7;
-const MAX_PRODUCT_LINKS = 2;
+const MAX_INTERNAL_LINKS = 7;
 
 const swedishWords: Record<string, string> = {
   basta: "bästa",
@@ -89,60 +88,29 @@ function articleForms(article: LinkableArticle) {
   return uniqueForms(forms);
 }
 
-function reviewHref(provider: LinkableProvider) {
-  if (provider.reviewUrl && provider.reviewUrl.startsWith("/")) return provider.reviewUrl;
-  if (provider.reviewSlug) return `/${provider.reviewSlug}`;
-
-  const providerName = provider.name.toLocaleLowerCase("sv-SE");
-  const review = linkableArticles.find((article) => {
-    const title = article.title.toLocaleLowerCase("sv-SE");
-    return title.includes(providerName) && (title.includes("recension") || article.slug.includes("recension"));
-  });
-  return review ? `/${review.slug}` : null;
-}
-
 function candidates(currentSlug: string, relatedSlugs: string[], state: ContextualLinkState) {
   const related = new Set(relatedSlugs);
-  const articleLinks: LinkCandidate[] = linkableArticles
-    .filter((article) => article.slug !== currentSlug)
-    .map((article) => ({
-      id: `article:${article.slug}`,
-      forms: articleForms(article),
-      href: `/${article.slug}`,
-      external: false,
-      sponsored: false,
-      priority: related.has(article.slug) ? 0 : 3,
-    }));
-
-  const providerLinks = (providers as unknown as LinkableProvider[]).flatMap<LinkCandidate>((provider) => {
-    const review = reviewHref(provider);
-    const onReview = review === `/${currentSlug}`;
-    const result: LinkCandidate[] = [];
-
-    if (review && !onReview) {
-      result.push({
-        id: `provider-review:${provider.key}`,
-        forms: [provider.name],
-        href: review,
+  const articleLinks: LinkCandidate[] = state.links < MAX_INTERNAL_LINKS
+    ? linkableArticles
+      .filter((article) => article.slug !== currentSlug)
+      .map((article) => ({
+        id: `article:${article.slug}`,
+        forms: articleForms(article),
+        href: `/${article.slug}`,
         external: false,
         sponsored: false,
-        priority: 1,
-      });
-    }
+        priority: related.has(article.slug) ? 0 : 3,
+      }))
+    : [];
 
-    if (state.productLinks < MAX_PRODUCT_LINKS && (onReview || state.seen.has(`provider-review:${provider.key}`) || !review)) {
-      result.push({
-        id: `provider-product:${provider.key}`,
-        forms: [provider.name],
-        href: getProviderLink(provider as Parameters<typeof getProviderLink>[0]),
-        external: true,
-        sponsored: Boolean(provider.affiliate),
-        priority: onReview ? 0 : 2,
-      });
-    }
-
-    return result;
-  });
+  const providerLinks = (providers as unknown as LinkableProvider[]).map<LinkCandidate>((provider) => ({
+    id: `provider-product:${provider.key}`,
+    forms: [provider.name],
+    href: getProviderLink(provider as Parameters<typeof getProviderLink>[0]),
+    external: true,
+    sponsored: Boolean(provider.affiliate),
+    priority: -1,
+  }));
 
   return [...articleLinks, ...providerLinks].filter((candidate) => !state.seen.has(candidate.id));
 }
@@ -181,14 +149,15 @@ export function takeContextualLink(
   relatedSlugs: string[],
   state: ContextualLinkState,
 ) {
-  if (state.links >= MAX_LINKS) return null;
-
   const match = findMatch(text, candidates(currentSlug, relatedSlugs, state));
   if (!match) return null;
 
   state.seen.add(match.candidate.id);
-  state.links += 1;
-  if (match.candidate.id.startsWith("provider-product:")) state.productLinks += 1;
+  if (match.candidate.id.startsWith("provider-product:")) {
+    state.productLinks += 1;
+  } else {
+    state.links += 1;
+  }
   return match;
 }
 
@@ -203,27 +172,39 @@ export function ContextualText({
   relatedSlugs: string[];
   state: ContextualLinkState;
 }) {
-  const match = takeContextualLink(text, currentSlug, relatedSlugs, state);
-  if (!match) return <ExplainedText text={text} />;
+  const parts: ReactNode[] = [];
+  let remaining = text;
+  let partIndex = 0;
 
-  const before = text.slice(0, match.index);
-  const after = text.slice(match.index + match.value.length);
-  const attributes = match.candidate.external
-    ? {
-        target: "_blank",
-        rel: match.candidate.sponsored
-          ? "sponsored nofollow noopener noreferrer"
-          : "noopener noreferrer",
-      }
-    : {};
+  while (remaining) {
+    const match = takeContextualLink(remaining, currentSlug, relatedSlugs, state);
+    if (!match) {
+      parts.push(<ExplainedText key={`text-${partIndex}`} text={remaining} />);
+      break;
+    }
 
-  return (
-    <>
-      <ExplainedText text={before} />
-      <a className="contextual-link" href={match.candidate.href} {...attributes}>{match.value}</a>
-      <ExplainedText text={after} />
-    </>
-  );
+    const before = remaining.slice(0, match.index);
+    if (before) parts.push(<ExplainedText key={`text-${partIndex}`} text={before} />);
+
+    const attributes = match.candidate.external
+      ? {
+          target: "_blank",
+          rel: match.candidate.sponsored
+            ? "sponsored nofollow noopener noreferrer"
+            : "noopener noreferrer",
+        }
+      : {};
+
+    parts.push(
+      <a className="contextual-link" href={match.candidate.href} key={`link-${partIndex}`} {...attributes}>
+        {match.value}
+      </a>,
+    );
+    remaining = remaining.slice(match.index + match.value.length);
+    partIndex += 1;
+  }
+
+  return <>{parts}</>;
 }
 
 export function MidArticleLink({ article, state }: { article: LinkableArticle; state: ContextualLinkState }): ReactNode {
