@@ -10,6 +10,8 @@ import { ProviderComparison } from "./ProviderComparison";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
+import { SectionIcon } from "./SectionIcon";
+
 export function ArticlePage({ slug }: { slug: string }) {
   const article = getArticle(slug);
   if (!article) notFound();
@@ -58,7 +60,7 @@ export function ArticlePage({ slug }: { slug: string }) {
           <section className="focus-grid" aria-label="Det här jämför vi">{focusItems.map((item, index) => <div key={item}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></div>)}</section>
           <ProviderComparison slug={article.slug} />
           <figure className="article-mascot-block"><img src={mascotImage} alt="Illustrerad matlåda som markerar ett praktiskt jämförelsesteg" width="640" height="640" /><figcaption>Kontrollera portionsstorlek, innehåll och leverans innan du räknar fram priset per måltid.</figcaption></figure>
-          {article.sections.map((section) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}><ExplainedText text={item} /></li>)}</ul>}
+          {article.sections.map((section, index) => <section key={section.title}><div className="article-section-heading"><SectionIcon index={index} /><h2>{section.title}</h2></div>{section.paragraphs?.map((paragraph) => <p key={paragraph}><ExplainedText text={paragraph} /></p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}><ExplainedText text={item} /></li>)}</ul>}
               {section.sourceRefs && <p className="section-sources"><strong>Källor för uppgifterna:</strong>{section.sourceRefs.map((source) => <a href={source.url} rel="noopener noreferrer" key={source.url}>{source.label}</a>)}</p>}
             </section>)}
           <section className="next-step-section"><p className="eyebrow">Nästa steg</p><h2>{nextStepHeading}</h2><ol>{(reviewedProvider ? ["Se att veckans meny och kostval passar dig.", "Kontrollera leverans till ditt postnummer och vad som ingår.", "Läs villkoren för ändring, paus och avslut före beställning."] : ["Välj samma antal portioner hos varje tjänst.", "Lägg till leverans och eventuella tillval.", "Kontrollera paus, uppsägning och ordinarie pris innan du beställer."]).map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}</ol><a href={reviewedProvider ? "/basta-fardiga-matlador" : "/#jamforelse"}>{reviewedProvider ? "Jämför tjänsterna" : "Tillbaka till jämförelsen"} <span aria-hidden="true">↗</span></a></section>

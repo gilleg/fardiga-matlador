@@ -625,3 +625,10 @@ td a { font-weight: 750; text-decoration-color: var(--accent); text-underline-of
   .answer-facts > div:nth-child(even) { padding-left: 1rem; border-left: 1px solid var(--line); }
   .answer-facts > div:nth-child(n + 3) { border-top: 1px solid var(--line); }
 }
+
+
+/* Quiet line icons keep long guides scannable without creating another module. */
+.article-section-heading { margin-bottom: var(--space-4); display: flex; align-items: flex-start; gap: .75rem; }
+.article-section-heading .section-line-icon { width: 2rem; height: 2rem; margin-top: .15rem; flex: 0 0 2rem; display: grid; place-items: center; color: var(--accent); border-bottom: 1px solid var(--line); }
+.article-section-heading .section-line-icon svg { width: 1.3rem; height: 1.3rem; }
+.article-section-heading h2 { margin: 0; }
