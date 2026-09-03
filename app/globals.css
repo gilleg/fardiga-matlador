@@ -644,5 +644,5 @@ td a { font-weight: 750; text-decoration-color: var(--accent); text-underline-of
 .mid-article-link a { color: inherit; text-decoration-color: var(--cta); text-decoration-thickness: .09em; text-underline-offset: .18em; }
 .contextual-link:hover,
 .mid-article-link a:hover { color: var(--cta-dark); }
-.mid-article-link { margin-top: 1.25rem; color: var(--ink-soft); font-size: .94rem; }
+.mid-article-link { margin: 1.25rem 0 var(--space-5); color: var(--ink-soft); font-size: .94rem; }
 .mid-article-link a { color: var(--ink); font-weight: 750; }
