@@ -637,3 +637,12 @@ td a { font-weight: 750; text-decoration-color: var(--accent); text-underline-of
   .article-body section:has(> .article-section-illustration) { display: block; }
   .article-section-illustration { width: 6.5rem; margin: var(--space-4) auto 0; }
 }
+
+
+/* Quiet, contextual paths between guides and reviewed products. */
+.contextual-link,
+.mid-article-link a { color: inherit; text-decoration-color: var(--cta); text-decoration-thickness: .09em; text-underline-offset: .18em; }
+.contextual-link:hover,
+.mid-article-link a:hover { color: var(--cta-dark); }
+.mid-article-link { margin-top: 1.25rem; color: var(--ink-soft); font-size: .94rem; }
+.mid-article-link a { color: var(--ink); font-weight: 750; }
