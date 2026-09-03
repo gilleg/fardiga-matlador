@@ -70,6 +70,18 @@ function uniqueForms(forms: string[]) {
     .sort((a, b) => b.length - a.length);
 }
 
+function providerForms(provider: LinkableProvider) {
+  const shortName = provider.name
+    .replace(
+      /\s+(?:(?:EXTRA\s+)?Mastercard(?:\s+Mer)?|Bankkort Plus|Försäkring(?:ar)?|Matkasse|Kreditkort|VISA|kort|Premium|Gold|flex)$/iu,
+      "",
+    )
+    .trim();
+
+  return [...new Set([provider.name, shortName].filter(Boolean))]
+    .sort((a, b) => b.length - a.length);
+}
+
 const linkableArticles = articles as unknown as LinkableArticle[];
 
 function articleForms(article: LinkableArticle) {
@@ -105,14 +117,16 @@ function candidates(currentSlug: string, relatedSlugs: string[], state: Contextu
 
   const providerLinks = (providers as unknown as LinkableProvider[]).map<LinkCandidate>((provider) => ({
     id: `provider-product:${provider.key}`,
-    forms: [provider.name],
+    forms: providerForms(provider),
     href: getProviderLink(provider as Parameters<typeof getProviderLink>[0]),
     external: true,
     sponsored: Boolean(provider.affiliate),
     priority: -1,
   }));
 
-  return [...articleLinks, ...providerLinks].filter((candidate) => !state.seen.has(candidate.id));
+  return [...articleLinks, ...providerLinks].filter((candidate) =>
+    candidate.id.startsWith("provider-product:") || !state.seen.has(candidate.id),
+  );
 }
 
 function findMatch(text: string, linkCandidates: LinkCandidate[]) {
@@ -152,10 +166,10 @@ export function takeContextualLink(
   const match = findMatch(text, candidates(currentSlug, relatedSlugs, state));
   if (!match) return null;
 
-  state.seen.add(match.candidate.id);
   if (match.candidate.id.startsWith("provider-product:")) {
     state.productLinks += 1;
   } else {
+    state.seen.add(match.candidate.id);
     state.links += 1;
   }
   return match;
