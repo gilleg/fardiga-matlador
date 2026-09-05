@@ -36,8 +36,21 @@ test("alla guider och recensioner svarar med rätt innehåll", async () => {
     const html = await response.text();
     assert.match(html, /Källor och underlag/);
     assert.match(html, /Färdiga matlådor/);
+    assert.equal((html.match(/class="article-editorial-image/g) ?? []).length, 2, `${slug} should have two editorial images`);
+    assert.match(html, /class="article-tool-link"[^>]*>[\s\S]*?href="\/verktyg#/);
     assert.doesNotMatch(html, /HelloFresh|ICA Matkasse|Hedvig|Trygg-Hansa/);
   }
+});
+
+test("verktyg är en egen sektion och partnernamn länkas i kortsvaret", async () => {
+  const tools = await (await render("/verktyg")).text();
+  assert.match(tools, /id="veckokostnad"/);
+  assert.match(tools, /id="tidsvinst"/);
+  assert.match(tools, /id="valjare"/);
+  assert.match(tools, /href="\/verktyg">Verktyg<\/a>/);
+  const article = await (await render("/basta-fardiga-matlador")).text();
+  const directAnswer = article.match(/<div class="direct-answer"[\s\S]*?<\/div><\/header>/)?.[0] ?? "";
+  assert.match(directAnswer, /href="https:\/\/svartaladan\.se\/"[\s\S]*?>Svarta Lådan<\/a>/);
 });
 
 test("jämförelsen har rätt helhetsval och fyra tjänster", async () => {

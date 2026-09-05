@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { getComparisonProfile } from "../content/comparisons";
 import { getArticle, formatDate } from "../content/articles";
-import { getArticleImage } from "../content/articleImages";
+import { getArticleEndImage, getArticleImage } from "../content/articleImages";
 import { SITE_NAME, SITE_URL } from "../content/metadata";
 import { getProvider, getProviderLink, providers } from "../content/providers";
 import { AffiliateBar } from "./AffiliateBar";
-import { ExplainedText } from "./ExplainedText";
+import { ArticleToolLink } from "./ArticleToolLink";
 import { ContextualText, createContextualLinkState, MidArticleLink } from "./ContextualText";
 import { ProviderComparison } from "./ProviderComparison";
 import { SiteFooter } from "./SiteFooter";
@@ -23,6 +23,7 @@ export function ArticlePage({ slug }: { slug: string }) {
   const profile = getComparisonProfile(article.slug);
   const winner = getProvider(profile.winner);
   const image = getArticleImage(article.slug);
+  const endImage = getArticleEndImage(article.slug);
   const mascotImages = ["/images/mascots/ready-meal.png", "/images/mascots/delivery-plan.png", "/images/mascots/nutrition-check.png"];
   const mascotImage = mascotImages[article.slug.length % mascotImages.length];
   const articleUrl = `${SITE_URL}/${article.slug}`;
@@ -51,25 +52,27 @@ export function ArticlePage({ slug }: { slug: string }) {
                   {article.quickFacts.map((fact) => (
                     <div key={fact.label}>
                       <dt>{fact.label}</dt>
-                      <dd><ExplainedText text={fact.value} /></dd>
-                      {fact.detail && <small><ExplainedText text={fact.detail} /></small>}
+                      <dd>{linkedText(fact.value)}</dd>
+                      {fact.detail && <small>{linkedText(fact.detail)}</small>}
                     </div>
                   ))}
                 </dl>
               )}
-              {article.answerScope && <p className="answer-scope"><ExplainedText text={article.answerScope} /></p>}
+              {article.answerScope && <p className="answer-scope">{linkedText(article.answerScope)}</p>}
             </div></header>
-        <figure className="article-editorial-image"><img src={image.src} alt={image.alt} width="1600" height="1067" /><figcaption>{imageCaption}</figcaption></figure>
+        <figure className="article-editorial-image"><img src={image.src} alt={image.alt} width="1600" height="1067" /><figcaption>{linkedText(imageCaption)}</figcaption></figure>
         <div className="article-layout"><div className="article-body">
           <section className="article-choice" id="var-bedomning"><p className="eyebrow">{reviewedProvider ? "Vår recension" : "Vårt val i jämförelsen"}</p><h2>{choiceHeading}</h2><p>{linkedText(profile.winnerReason)}</p><p className="choice-caveat">{choiceCaveat}</p><a className="choice-button" href={getProviderLink(winner)} target="_blank" rel={winner.affiliate ? "sponsored nofollow noopener noreferrer" : "noopener noreferrer"}>{choiceLinkLabel} <span aria-hidden="true">↗</span></a></section>
           <section className="focus-grid" aria-label="Det här jämför vi">{focusItems.map((item, index) => <div key={item}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item}</strong></div>)}</section>
           <ProviderComparison slug={article.slug} />
           <figure className="article-mascot-block"><img src={mascotImage} alt="Illustrerad matlåda som markerar ett praktiskt jämförelsesteg" width="640" height="640" /><figcaption>Kontrollera portionsstorlek, innehåll och leverans innan du räknar fram priset per måltid.</figcaption></figure>
           <MidArticleLink article={article} state={contextualLinkState} />
+          <ArticleToolLink slug={article.slug} />
             {article.sections.map((section, index) => <section key={section.title}><h2>{section.title}</h2>{index === 1 && <SectionIcon index={0} />}{section.paragraphs?.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{linkedText(item)}</li>)}</ul>}
               {section.sourceRefs && <p className="section-sources"><strong>Källor för uppgifterna:</strong>{section.sourceRefs.map((source) => <a href={source.url} rel="noopener noreferrer" key={source.url}>{source.label}</a>)}</p>}
             </section>)}
           <section className="next-step-section"><p className="eyebrow">Nästa steg</p><h2>{nextStepHeading}</h2><ol>{(reviewedProvider ? ["Se att veckans meny och kostval passar dig.", "Kontrollera leverans till ditt postnummer och vad som ingår.", "Läs villkoren för ändring, paus och avslut före beställning."] : ["Välj samma antal portioner hos varje tjänst.", "Lägg till leverans och eventuella tillval.", "Kontrollera paus, uppsägning och ordinarie pris innan du beställer."]).map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}</ol><a href={reviewedProvider ? "/basta-fardiga-matlador" : "/#jamforelse"}>{reviewedProvider ? "Jämför tjänsterna" : "Tillbaka till jämförelsen"} <span aria-hidden="true">↗</span></a></section>
+          <figure className="article-editorial-image article-end-image"><img src={endImage.src} alt={endImage.alt} width="1600" height="1067" loading="lazy" decoding="async" /><figcaption>{endImage.caption}</figcaption></figure>
           <section className="faq-section"><p className="eyebrow">Vanliga frågor</p><h2>Frågor och svar</h2><div className="faq-list">{article.faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{linkedText(item.answer)}</p></details>)}</div></section>
           <section className="sources-section"><h2>Källor och underlag</h2><p>Priser, leveransområden och menyer ändras. Uppgifterna kontrollerades 18 augusti 2026 och ska jämföras med aktuell beställningssida före köp.</p><ol>{article.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <span aria-hidden="true">↗</span></a></li>)}</ol></section>
         </div><aside className="article-aside"><div className="aside-card"><p className="eyebrow">{reviewedProvider ? "Vår recensionsmetod" : "Vår jämförelseprincip"}</p><p>{reviewedProvider ? "Vi bedömer tjänstens upplägg, styrkor och begränsningar mot aktuella villkor. En recension är inte samma sak som en topplista." : "En tjänst får inte vinna på en enda stark sida. Pris, leverans, portionsstorlek, innehåll och vardagsnytta behöver fungera tillsammans."}</p><a href="/om-oss">Så arbetar vi</a></div></aside></div>

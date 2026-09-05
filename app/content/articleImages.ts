@@ -23,3 +23,9 @@ export function getArticleImage(slug: string): ArticleImage {
   if (["matlador-med-hemleverans", "fardiga-matlador-for-en-person", "svarta-ladan-recension", "fardiga-maten-recension"].includes(slug)) return homeImage;
   return deliveryImage;
 }
+
+export function getArticleEndImage(slug: string): ArticleImage {
+  const images = [deliveryImage, homeImage, weeklyImage];
+  const openingImage = getArticleImage(slug);
+  return images.find((image) => image.src !== openingImage.src) ?? weeklyImage;
+}

@@ -646,3 +646,50 @@ td a { font-weight: 750; text-decoration-color: var(--accent); text-underline-of
 .mid-article-link a:hover { color: var(--cta-dark); }
 .mid-article-link { margin: 1.25rem 0 var(--space-5); color: var(--ink-soft); font-size: .94rem; }
 .mid-article-link a { color: var(--ink); font-weight: 750; }
+
+
+/* Interactive tools live in the editorial flow and link back to relevant guides. */
+h1, h2, h3 { max-width: 100%; overflow-wrap: anywhere; word-break: normal; hyphens: auto; }
+.contextual-link { font-weight: 750; text-decoration-line: underline; }
+.article-end-image { margin-top: var(--space-6); }
+.article-tool-link { margin: var(--space-6) 0; padding: 1.35rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.article-tool-link .eyebrow { margin-bottom: .45rem; }
+.article-tool-link h3 { max-width: 32rem; margin: 0 0 .55rem; font-family: var(--font-display); font-size: 1.75rem; line-height: 1.08; letter-spacing: 0; overflow-wrap: anywhere; }
+.article-tool-link p:not(.eyebrow) { max-width: 39rem; margin: 0 0 .8rem; color: var(--ink-soft); }
+.article-tool-link a, .tool-recommendation a { color: var(--ink); font-weight: 800; text-decoration-line: underline; text-decoration-thickness: .1rem; text-decoration-color: var(--accent); text-underline-offset: .24rem; }
+.tools-page { width: min(72rem, calc(100% - 2rem)); margin: 0 auto; padding: clamp(3rem, 8vw, 7rem) 0; }
+.tools-hero { max-width: 52rem; margin-bottom: var(--space-7); }
+.tools-hero h1 { max-width: 48rem; margin: .55rem 0 1rem; font-family: var(--font-display); font-size: clamp(3rem, 7vw, 5.5rem); line-height: .98; letter-spacing: 0; overflow-wrap: anywhere; hyphens: auto; }
+.tools-hero > p:last-child { max-width: 44rem; color: var(--ink-soft); font-size: 1.08rem; }
+.meal-tools { display: grid; gap: var(--space-6); }
+.tool-panel { scroll-margin-top: 7rem; padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid var(--line); border-top: .3rem solid var(--accent); background: var(--paper-bright); }
+.tool-heading { max-width: 45rem; margin-bottom: 1.5rem; }
+.tool-heading h2 { margin: .35rem 0 .65rem; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.03; letter-spacing: 0; overflow-wrap: anywhere; }
+.tool-heading > p:last-child { margin: 0; color: var(--ink-soft); }
+.tool-control-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2rem; }
+.tool-control-grid label, .tool-wide-control { min-width: 0; display: grid; grid-template-columns: 1fr auto; gap: .6rem 1rem; color: var(--ink-soft); font-size: .9rem; }
+.tool-control-grid label strong, .tool-wide-control strong { color: var(--ink); }
+.tool-control-grid input, .tool-wide-control input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+.tool-wide-control { max-width: 46rem; }
+.tool-result { margin-top: 1.75rem; padding-top: 1.25rem; display: grid; gap: .25rem; border-top: 1px solid var(--line); }
+.tool-result span { color: var(--ink-soft); font-size: .82rem; font-weight: 750; text-transform: uppercase; }
+.tool-result strong { font-family: var(--font-display); font-size: 2.35rem; line-height: 1.05; font-weight: 650; }
+.tool-result small { color: var(--ink-soft); }
+.tool-select-label { display: block; margin-bottom: .45rem; color: var(--ink-soft); font-size: .82rem; font-weight: 750; }
+.tool-panel select { width: min(100%, 32rem); min-height: 3rem; padding: .65rem .8rem; background: var(--paper); color: var(--ink); border: 1px solid var(--ink); border-radius: .2rem; }
+.tool-recommendation { max-width: 46rem; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.tool-recommendation h3 { margin: 0 0 .45rem; font-size: 1.45rem; letter-spacing: 0; }
+.tool-recommendation p { margin: 0 0 .8rem; color: var(--ink-soft); }
+
+@media (max-width: 720px) {
+  .article-header h1, .about-header h1, .policy-header h1 { font-size: 2.65rem; line-height: 1.02; letter-spacing: 0; }
+  .article-body h2 { font-size: 2.25rem; line-height: 1.1; letter-spacing: 0; }
+  .tools-page { width: min(100% - 2rem, 72rem); padding: 3rem 0; }
+  .tools-hero { margin-bottom: 3rem; }
+  .tools-hero h1 { font-size: 2.65rem; line-height: 1.02; }
+  .tool-panel { padding: 1.15rem; }
+  .tool-heading h2 { font-size: 2.15rem; }
+  .tool-control-grid { grid-template-columns: 1fr; }
+  .tool-result strong { font-size: 2rem; }
+  .article-tool-link h3 { font-size: 1.55rem; }
+}

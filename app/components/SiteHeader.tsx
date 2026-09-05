@@ -6,6 +6,7 @@ const menuGroups = [
   { title: "Jämför", links: [{ href: "/basta-fardiga-matlador", label: "Bästa färdiga matlådorna" }, { href: "/billiga-matlador", label: "Billiga matlådor" }, { href: "/matlador-med-hemleverans", label: "Med hemleverans" }, { href: "/nyttiga-matlador", label: "Nyttiga matlådor" }] },
   { title: "Vardag & mål", links: [{ href: "/matlador-for-traning", label: "För träning" }, { href: "/matlador-for-viktnedgang", label: "För viktnedgång" }, { href: "/fardiga-matlador-for-en-person", label: "För en person" }, { href: "/vegetariska-matlador", label: "Vegetariska" }] },
   { title: "Recensioner", links: [{ href: "/svarta-ladan-recension", label: "Svarta Lådan" }, { href: "/factor-recension", label: "Factor" }, { href: "/macro-meals-recension", label: "Macro Meals" }, { href: "/fardiga-maten-recension", label: "Färdiga Maten" }] },
+  { title: "Verktyg", links: [{ href: "/verktyg#veckokostnad", label: "Veckokostnad" }, { href: "/verktyg#tidsvinst", label: "Tidsvinst" }, { href: "/verktyg#valjare", label: "Matlådeväljaren" }] },
 ];
 
 const utilityLinks = [{ href: "/om-oss", label: "Om oss och vår metod" }, { href: "/integritetspolicy", label: "Integritetspolicy" }, { href: "/cookiepolicy", label: "Cookiepolicy" }];
@@ -35,6 +36,7 @@ export function SiteHeader() {
       <details className="nav-dropdown nav-dropdown-compare"><summary><span className="nav-label">Jämför</span> <span className="nav-toggle-icon" aria-hidden="true">＋</span></summary><div className="nav-dropdown-panel"><DropdownGroup group={menuGroups[0]} /></div></details>
       <details className="nav-dropdown nav-dropdown-vardag"><summary><span className="nav-label">Guider</span> <span className="nav-toggle-icon" aria-hidden="true">＋</span></summary><div className="nav-dropdown-panel"><DropdownGroup group={menuGroups[1]} /></div></details>
       <details className="nav-dropdown nav-dropdown-reviews"><summary><span className="nav-label">Recensioner</span> <span className="nav-toggle-icon" aria-hidden="true">＋</span></summary><div className="nav-dropdown-panel"><DropdownGroup group={menuGroups[2]} /></div></details>
+      <a href="/verktyg">Verktyg</a>
       <a href="/om-oss">Om oss</a>
     </nav>
     <button className="mobile-menu-trigger" type="button" aria-expanded={mobileOpen} aria-controls="mobil-meny" onClick={() => setMobileOpen(true)}><span className="menu-icon" aria-hidden="true"><span /><span /></span>Meny</button>
