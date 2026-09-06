@@ -6,6 +6,7 @@ import { ExplainedText } from "./ExplainedText";
 type LinkableProvider = {
   key: string;
   name: string;
+  shortName?: string;
   affiliate?: boolean;
   officialUrl: string;
   reviewUrl?: string;
@@ -73,12 +74,17 @@ function uniqueForms(forms: string[]) {
 function providerForms(provider: LinkableProvider) {
   const shortName = provider.name
     .replace(
-      /\s+(?:(?:EXTRA\s+)?Mastercard(?:\s+Mer)?|Bankkort Plus|Försäkring(?:ar)?|Matkasse|Kreditkort|VISA|kort|Premium|Gold|flex)$/iu,
+      /\s+(?:(?:EXTRA\s+)?Mastercard(?:\s+Mer)?|Bankkort Plus|Försäkring(?:ar)?|Matkasse|Kreditkort|VISA|kort|Premium|Gold|flex|Bredband|Elavtal|VPN|Streaming)$/iu,
       "",
     )
     .trim();
+  const baseForms = [provider.name, provider.shortName, shortName]
+    .filter((form): form is string => Boolean(form && form.trim()))
+    .map((form) => form.trim());
+  const forms = baseForms.flatMap((form) => [form, `${form}s`]);
 
-  return [...new Set([provider.name, shortName].filter(Boolean))]
+  return [...new Set(forms)]
+    .filter((form) => form.length >= 2)
     .sort((a, b) => b.length - a.length);
 }
 

@@ -11,7 +11,6 @@ import { ProviderComparison } from "./ProviderComparison";
 import { SiteFooter } from "./SiteFooter";
 import { SiteHeader } from "./SiteHeader";
 
-import { SectionIcon } from "./SectionIcon";
 
 export function ArticlePage({ slug }: { slug: string }) {
   const article = getArticle(slug);
@@ -46,7 +45,7 @@ export function ArticlePage({ slug }: { slug: string }) {
     <main>
       <article className="article-shell">
         <nav className="breadcrumbs" aria-label="Brödsmulor"><a href="/">Start</a><span aria-hidden="true">/</span><span>{article.category}</span></nav>
-        <header className="article-header"><p className="eyebrow">{article.category}</p><h1>{article.title}</h1><div className="article-meta"><span>Publicerad <time dateTime={article.published}>{formatDate(article.published)}</time></span><span>Senast uppdaterad <time dateTime={article.updated}>{formatDate(article.updated)}</time></span><span>{article.readingTime} läsning</span></div><div className="direct-answer" aria-label="Kort svar"><p className="direct-label">Kort svar</p>{article.answer.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}
+        <header className="article-header"><p className="eyebrow">{article.category}</p><h1>{article.title}</h1><div className="article-meta"><span>Publicerad <time dateTime={article.published}>{formatDate(article.published)}</time></span><span>Senast uppdaterad <time dateTime={article.updated}>{formatDate(article.updated)}</time></span><span>{article.readingTime} läsning</span></div><div className="direct-answer" role="region" aria-label="Kort svar"><p className="direct-label">Kort svar</p>{article.answer.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}
               {article.quickFacts && (
                 <dl className="answer-facts" aria-label="Nyckeluppgifter">
                   {article.quickFacts.map((fact) => (
@@ -68,7 +67,7 @@ export function ArticlePage({ slug }: { slug: string }) {
           <figure className="article-mascot-block"><img src={mascotImage} alt="Illustrerad matlåda som markerar ett praktiskt jämförelsesteg" width="640" height="640" /><figcaption>Kontrollera portionsstorlek, innehåll och leverans innan du räknar fram priset per måltid.</figcaption></figure>
           <MidArticleLink article={article} state={contextualLinkState} />
           <ArticleToolLink slug={article.slug} />
-            {article.sections.map((section, index) => <section key={section.title}><h2>{section.title}</h2>{index === 1 && <SectionIcon index={0} />}{section.paragraphs?.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{linkedText(item)}</li>)}</ul>}
+            {article.sections.map((section, index) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{linkedText(item)}</li>)}</ul>}
               {section.sourceRefs && <p className="section-sources"><strong>Källor för uppgifterna:</strong>{section.sourceRefs.map((source) => <a href={source.url} rel="noopener noreferrer" key={source.url}>{source.label}</a>)}</p>}
             </section>)}
           <section className="next-step-section"><p className="eyebrow">Nästa steg</p><h2>{nextStepHeading}</h2><ol>{(reviewedProvider ? ["Se att veckans meny och kostval passar dig.", "Kontrollera leverans till ditt postnummer och vad som ingår.", "Läs villkoren för ändring, paus och avslut före beställning."] : ["Välj samma antal portioner hos varje tjänst.", "Lägg till leverans och eventuella tillval.", "Kontrollera paus, uppsägning och ordinarie pris innan du beställer."]).map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}</ol><a href={reviewedProvider ? "/basta-fardiga-matlador" : "/#jamforelse"}>{reviewedProvider ? "Jämför tjänsterna" : "Tillbaka till jämförelsen"} <span aria-hidden="true">↗</span></a></section>

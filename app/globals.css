@@ -693,3 +693,59 @@ h1, h2, h3 { max-width: 100%; overflow-wrap: anywhere; word-break: normal; hyphe
   .tool-result strong { font-size: 2rem; }
   .article-tool-link h3 { font-size: 1.55rem; }
 }
+
+/* Consistent body-link treatment: visible in prose, untouched in nav/cards/buttons. */
+.contextual-link,
+.mid-article-link a,
+.direct-answer a,
+.answer-facts a,
+.article-body p a,
+.article-body li a,
+.article-body figcaption a,
+.comparison-intro a,
+.comparison-conclusion a,
+.comparison-findings p a,
+.provider-detail-notes a,
+.matkasse-card p a,
+.matkasse-watch p a,
+.section-sources a,
+.sources-section a,
+.claim-sources a,
+.preference-actions small a,
+.footer-disclosure a,
+.policy-content p a,
+.policy-content li a,
+.about-shell p a,
+.text-link {
+  color: var(--ink);
+  font-weight: 750;
+  text-decoration-line: underline;
+  text-decoration-thickness: .1rem;
+  text-decoration-color: var(--accent, var(--cta, currentColor));
+  text-underline-offset: .22rem;
+}
+
+.contextual-link:hover,
+.mid-article-link a:hover,
+.direct-answer a:hover,
+.answer-facts a:hover,
+.article-body p a:hover,
+.article-body li a:hover,
+.article-body figcaption a:hover,
+.comparison-intro a:hover,
+.comparison-conclusion a:hover,
+.comparison-findings p a:hover,
+.provider-detail-notes a:hover,
+.matkasse-card p a:hover,
+.matkasse-watch p a:hover,
+.section-sources a:hover,
+.sources-section a:hover,
+.claim-sources a:hover,
+.preference-actions small a:hover,
+.footer-disclosure a:hover,
+.policy-content p a:hover,
+.policy-content li a:hover,
+.about-shell p a:hover,
+.text-link:hover {
+  background: var(--accent-light, transparent);
+}
