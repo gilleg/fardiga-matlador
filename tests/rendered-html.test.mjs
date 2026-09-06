@@ -12,7 +12,14 @@ async function render(path = "/") {
 const articleSlugs = ["basta-fardiga-matlador", "billiga-matlador", "matlador-med-hemleverans", "nyttiga-matlador", "matlador-for-traning", "matlador-for-viktnedgang", "fardiga-matlador-for-en-person", "vegetariska-matlador", "svarta-ladan-recension", "factor-recension", "macro-meals-recension", "fardiga-maten-recension"];
 
 function comparisonProviderOrder(html) {
-  return [...html.matchAll(/<article class="matkasse-card(?: is-winner)?">([\s\S]*?)<\/article>/g)].map((match) => match[1].match(/<h3>([^<]+)<\/h3>/)?.[1]).filter(Boolean);
+  return [...html.matchAll(/<article class="matkasse-card(?: is-winner)?">([\s\S]*?)<\/article>/g)]
+    .map((match) => (match[1].match(/<h3[^>]*>([\s\S]*?)<\/h3>/)?.[1] ?? "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/<!--[\s\S]*?-->/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/ färdiga matlådor$/, ""))
+    .filter(Boolean);
 }
 
 test("startsidan har eget varumärke, innehåll och bildmaterial", async () => {

@@ -31,7 +31,7 @@ export function SiteHeader() {
   }, [mobileOpen]);
 
   return <div className="site-header-shell"><header className="site-header">
-    <a className="brand" href="/" aria-label="Färdiga matlådor, startsida"><img className="brand-mark" src="/brand-ready-meals.svg" alt="" width="36" height="36" /><span>Färdiga matlådor</span></a>
+    <a className="brand" href="/" aria-label="Färdiga matlådor, startsida"><img className="brand-mark" src="/brand-ready-meals.svg" alt="Färdiga matlådor logotyp" width="36" height="36" /><span>Färdiga matlådor</span></a>
     <nav className="desktop-nav" aria-label="Huvudmeny">
       <details className="nav-dropdown nav-dropdown-compare"><summary><span className="nav-label">Jämför</span> <span className="nav-toggle-icon" aria-hidden="true">＋</span></summary><div className="nav-dropdown-panel"><DropdownGroup group={menuGroups[0]} /></div></details>
       <details className="nav-dropdown nav-dropdown-vardag"><summary><span className="nav-label">Guider</span> <span className="nav-toggle-icon" aria-hidden="true">＋</span></summary><div className="nav-dropdown-panel"><DropdownGroup group={menuGroups[1]} /></div></details>

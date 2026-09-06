@@ -31,6 +31,28 @@ export function ArticlePage({ slug }: { slug: string }) {
   const choiceCaveat = reviewedProvider
     ? "Bedömningen gäller tjänstens upplägg, flexibilitet och vardagsnytta. Kontrollera aktuell meny, leveransområde och villkor före beställning."
     : "Det är inte ett löfte om lägsta totalpris. Kontrollera ditt postnummer, portionsantal, leverans och aktuell meny.";
+  const articleTopic = article.title.replace(/\s+[–-].*$/, "").trim();
+  const primaryProviderName = reviewedProvider?.name;
+  const headingSubject = primaryProviderName ?? `${articleTopic.charAt(0).toLocaleLowerCase("sv-SE")}${articleTopic.slice(1)}`;
+  const sectionHeading = (title: string) => {
+    const normalized = title.trim().toLocaleLowerCase("sv-SE");
+    if (normalized === "vår bedömning") return primaryProviderName ? `Vår bedömning av ${primaryProviderName}` : `Vår bedömning av ${headingSubject}`;
+    if (normalized === "frågor och svar") return `Vanliga frågor om ${headingSubject}`;
+    if (normalized === "källor och underlag") return `Källor och underlag för ${headingSubject}`;
+    if (normalized === "underlag och sista kontroll") return `Källor och sista kontroll för ${headingSubject}`;
+    if (normalized === "mot de fem alternativen") return primaryProviderName ? `${primaryProviderName} jämfört med fem alternativ` : `Fem alternativ jämförda för ${headingSubject}`;
+    if (normalized === "vårt slutliga val") return `Vårt slutliga val för ${headingSubject}`;
+    if (normalized === "vad utmärker produkten?") return primaryProviderName ? `Vad utmärker ${primaryProviderName}?` : `Vad utmärker ${headingSubject}?`;
+    if (normalized === "kontrollera före köp") return `Kontrollera detta före köp av ${headingSubject}`;
+    if (normalized === "kontrollera före avtal") return `Kontrollera detta före avtal om ${headingSubject}`;
+    if (normalized === "det här ska du kontrollera") return `Det här ska du kontrollera om ${headingSubject}`;
+    if (normalized === "fyra frågor före ansökan") return `Fyra frågor innan du ansöker om ${headingSubject}`;
+    if (normalized === "vem kortet passar för") return primaryProviderName ? `Vem passar ${primaryProviderName} för?` : `Vem passar ${headingSubject} för?`;
+    if (normalized === "tre sätt att välja klokare") return `Tre frågor innan du väljer ${headingSubject}`;
+    if (normalized === "före resan") return "Vad ska du kontrollera före resan med kortet?";
+    if (normalized === "om något inträffar") return "Hur använder du kortets reseskydd om något inträffar?";
+    return title;
+  };
   const choiceLinkLabel = reviewedProvider ? `Se ${reviewedProvider.name}s aktuella utbud` : "Se aktuellt erbjudande";
   const focusItems = reviewedProvider ? ["Meny och val", "Leverans och villkor", "Passar din vardag"] : ["Smak och recept", "Pris och leverans", "Passar din vardag"];
   const imageCaption = reviewedProvider ? `${reviewedProvider.name} bedöms efter meny, beställningsflöde, leverans och villkor.` : image.caption;
@@ -67,15 +89,15 @@ export function ArticlePage({ slug }: { slug: string }) {
           <figure className="article-mascot-block"><img src={mascotImage} alt="Illustrerad matlåda som markerar ett praktiskt jämförelsesteg" width="640" height="640" /><figcaption>Kontrollera portionsstorlek, innehåll och leverans innan du räknar fram priset per måltid.</figcaption></figure>
           <MidArticleLink article={article} state={contextualLinkState} />
           <ArticleToolLink slug={article.slug} />
-            {article.sections.map((section, index) => <section key={section.title}><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{linkedText(item)}</li>)}</ul>}
+            {article.sections.map((section, index) => <section key={section.title}><h2>{sectionHeading(section.title)}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{linkedText(paragraph)}</p>)}{section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{linkedText(item)}</li>)}</ul>}
               {section.sourceRefs && <p className="section-sources"><strong>Källor för uppgifterna:</strong>{section.sourceRefs.map((source) => <a href={source.url} rel="noopener noreferrer" key={source.url}>{source.label}</a>)}</p>}
             </section>)}
           <section className="next-step-section"><p className="eyebrow">Nästa steg</p><h2>{nextStepHeading}</h2><ol>{(reviewedProvider ? ["Se att veckans meny och kostval passar dig.", "Kontrollera leverans till ditt postnummer och vad som ingår.", "Läs villkoren för ändring, paus och avslut före beställning."] : ["Välj samma antal portioner hos varje tjänst.", "Lägg till leverans och eventuella tillval.", "Kontrollera paus, uppsägning och ordinarie pris innan du beställer."]).map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span><span>{step}</span></li>)}</ol><a href={reviewedProvider ? "/basta-fardiga-matlador" : "/#jamforelse"}>{reviewedProvider ? "Jämför tjänsterna" : "Tillbaka till jämförelsen"} <span aria-hidden="true">↗</span></a></section>
           <figure className="article-editorial-image article-end-image"><img src={endImage.src} alt={endImage.alt} width="1600" height="1067" loading="lazy" decoding="async" /><figcaption>{endImage.caption}</figcaption></figure>
-          <section className="faq-section"><p className="eyebrow">Vanliga frågor</p><h2>Frågor och svar</h2><div className="faq-list">{article.faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{linkedText(item.answer)}</p></details>)}</div></section>
-          <section className="sources-section"><h2>Källor och underlag</h2><p>Priser, leveransområden och menyer ändras. Uppgifterna kontrollerades 18 augusti 2026 och ska jämföras med aktuell beställningssida före köp.</p><ol>{article.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <span aria-hidden="true">↗</span></a></li>)}</ol></section>
+          <section className="faq-section"><p className="eyebrow">Vanliga frågor</p><h2>{sectionHeading("Frågor och svar")}</h2><div className="faq-list">{article.faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{linkedText(item.answer)}</p></details>)}</div></section>
+          <section className="sources-section"><h2>{sectionHeading("Källor och underlag")}</h2><p>Priser, leveransområden och menyer ändras. Uppgifterna kontrollerades 18 augusti 2026 och ska jämföras med aktuell beställningssida före köp.</p><ol>{article.sources.map((source) => <li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label} <span aria-hidden="true">↗</span></a></li>)}</ol></section>
         </div><aside className="article-aside"><div className="aside-card"><p className="eyebrow">{reviewedProvider ? "Vår recensionsmetod" : "Vår jämförelseprincip"}</p><p>{reviewedProvider ? "Vi bedömer tjänstens upplägg, styrkor och begränsningar mot aktuella villkor. En recension är inte samma sak som en topplista." : "En tjänst får inte vinna på en enda stark sida. Pris, leverans, portionsstorlek, innehåll och vardagsnytta behöver fungera tillsammans."}</p><a href="/om-oss">Så arbetar vi</a></div></aside></div>
-        <section className="related-section"><p className="eyebrow">Läs vidare</p><div className="related-grid">{article.related.map((relatedSlug) => { const related = getArticle(relatedSlug); return related ? <a href={`/${related.slug}`} key={related.slug}><span>{related.category}</span><strong>{related.title}</strong><span aria-hidden="true">↗</span></a> : null; })}</div></section>
+        <section className="related-section"><p className="eyebrow">Läs vidare</p><div className="related-grid">{article.related.map((relatedSlug) => { const related = getArticle(relatedSlug); return related ? <a href={`/${related.slug}`} key={related.slug}><span>{related.category}</span><span className="related-title">{related.title}</span><span aria-hidden="true">↗</span></a> : null; })}</div></section>
       </article>
     </main>
     <AffiliateBar /><SiteFooter />
